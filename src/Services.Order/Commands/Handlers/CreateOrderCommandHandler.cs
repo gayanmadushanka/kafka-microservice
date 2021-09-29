@@ -5,15 +5,16 @@ using Services.Order.Data;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Shared.Kafka;
+using Shared.Dto;
 
 namespace Services.Order.Commands.Handlers
 {
     public class CreateOrderCommandHandler : IRequestHandler<CreateOrderCommand, OrderData>
     {
         private readonly OrderDBContext _dbContext;
-        private readonly IKafkaMessageBus<int, OrderData> _bus;
+        private readonly IKafkaMessageBus<int, OrchestratorRequestDTO> _bus;
 
-        public CreateOrderCommandHandler(OrderDBContext dbContext, IKafkaMessageBus<int, OrderData> bus)
+        public CreateOrderCommandHandler(OrderDBContext dbContext, IKafkaMessageBus<int, OrchestratorRequestDTO> bus)
         {
             _bus = bus;
             _dbContext = dbContext;
@@ -37,7 +38,15 @@ namespace Services.Order.Commands.Handlers
 
             await _dbContext.SaveChangesAsync();
 
-            await _bus.PublishAsync(command.UserId, order);
+            var orchestratorRequestDTO = new OrchestratorRequestDTO
+            {
+                OrderId = order.Id,
+                UserId = order.UserId,
+                ProductId = order.ProductId,
+                Price = order.Price,
+            };
+
+            await _bus.PublishAsync(command.UserId, orchestratorRequestDTO);
 
             return order;
         }

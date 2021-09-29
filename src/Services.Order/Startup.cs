@@ -9,6 +9,7 @@ using Microsoft.Extensions.Hosting;
 using Services.Order.Commands.Handlers;
 using Services.Order.Data;
 using Shared.Kafka;
+using Shared.Dto;
 
 namespace Services.Order
 {
@@ -33,7 +34,7 @@ namespace Services.Order
 
             services.AddKafkaMessageBus();
 
-            services.AddKafkaProducer<int, OrderData>(p =>
+            services.AddKafkaProducer<int, OrchestratorRequestDTO>(p =>
             {
                 p.Topic = "orders";
                 p.BootstrapServers = "localhost:9092";

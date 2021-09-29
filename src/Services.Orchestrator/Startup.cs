@@ -1,16 +1,14 @@
-using System.Reflection;
-using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Services.Identity.Commands.Handlers;
-using Services.Identity.Data;
+using Services.Orchestrator.Handlers;
 using Shared.Kafka;
+using Shared.Dto;
 
-namespace Services.Identity
+namespace Services.Orchestrator
 {
     public class Startup
     {
@@ -23,20 +21,14 @@ namespace Services.Identity
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<IdentityDBContext>(options =>
-                options.UseNpgsql(Configuration.GetConnectionString("DefaultConnection"))
-            );
-
-            services.AddMediatR(typeof(RegisterUserCommandHandler).GetTypeInfo().Assembly);
-
             services.AddControllers();
 
-            services.AddKafkaMessageBus();
-
-            services.AddKafkaProducer<string, User>(p =>
+            services.AddKafkaConsumer<int, OrchestratorRequestDTO, OrderOrchestratorHandler>(p =>
             {
-                p.Topic = "users";
+                p.Topic = "orders";
+                p.GroupId = "orders_group";
                 p.BootstrapServers = "localhost:9092";
+                p.AllowAutoCreateTopics = true;
             });
         }
 
@@ -46,8 +38,6 @@ namespace Services.Identity
             {
                 app.UseDeveloperExceptionPage();
             }
-
-            DbInitilializer.Initialize(app.ApplicationServices);
 
             app.UseRouting();
             app.UseAuthorization();
