@@ -4,9 +4,12 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Services.Orchestrator.Handlers;
+using Services.Orchestrator.Events.Handlers;
+using Services.Orchestrator.Commands.Handlers;
 using Shared.Kafka;
 using Shared.Dto;
+using MediatR;
+using System.Reflection;
 
 namespace Services.Orchestrator
 {
@@ -21,15 +24,26 @@ namespace Services.Orchestrator
 
         public void ConfigureServices(IServiceCollection services)
         {
+            // services.AddMediatR(typeof(UpdateOrderCommandHandler).GetTypeInfo().Assembly);
+
             services.AddControllers();
 
-            services.AddKafkaConsumer<int, OrchestratorRequestDTO, OrderOrchestratorHandler>(p =>
+            // services.AddKafkaMessageBus();
+
+            services.AddKafkaConsumer<string, OrchestratorRequestDTO, OrderCreatedHandler>(p =>
             {
-                p.Topic = "orders";
-                p.GroupId = "orders_group";
+                p.Topic = "order-created";
+                p.GroupId = "orders-created-group";
                 p.BootstrapServers = "localhost:9092";
                 p.AllowAutoCreateTopics = true;
             });
+
+            // services.AddKafkaProducer<string, OrchestratorResponseDTO>(p =>
+            // {
+            //     p.Topic = "order-updated";
+            //     p.BootstrapServers = "localhost:9092";
+            // });
+
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

@@ -12,9 +12,9 @@ namespace Services.Order.Commands.Handlers
     public class CreateOrderCommandHandler : IRequestHandler<CreateOrderCommand, OrderData>
     {
         private readonly OrderDBContext _dbContext;
-        private readonly IKafkaMessageBus<int, OrchestratorRequestDTO> _bus;
+        private readonly IKafkaMessageBus<string, OrchestratorRequestDTO> _bus;
 
-        public CreateOrderCommandHandler(OrderDBContext dbContext, IKafkaMessageBus<int, OrchestratorRequestDTO> bus)
+        public CreateOrderCommandHandler(OrderDBContext dbContext, IKafkaMessageBus<string, OrchestratorRequestDTO> bus)
         {
             _bus = bus;
             _dbContext = dbContext;
@@ -46,7 +46,7 @@ namespace Services.Order.Commands.Handlers
                 Price = order.Price,
             };
 
-            await _bus.PublishAsync(command.UserId, orchestratorRequestDTO);
+            await _bus.PublishAsync(orchestratorRequestDTO.OrderId.ToString(), orchestratorRequestDTO);
 
             return order;
         }

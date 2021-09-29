@@ -7,6 +7,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Services.Order.Commands.Handlers;
+using Services.Order.Events.Handlers;
 using Services.Order.Data;
 using Shared.Kafka;
 using Shared.Dto;
@@ -34,11 +35,19 @@ namespace Services.Order
 
             services.AddKafkaMessageBus();
 
-            services.AddKafkaProducer<int, OrchestratorRequestDTO>(p =>
+            services.AddKafkaProducer<string, OrchestratorRequestDTO>(p =>
             {
-                p.Topic = "orders";
+                p.Topic = "order-created";
                 p.BootstrapServers = "localhost:9092";
             });
+
+            // services.AddKafkaConsumer<string, OrchestratorResponseDTO, OrderUpdatedHandler>(p =>
+            // {
+            //     p.Topic = "order-updated";
+            //     p.GroupId = "orders-updated-group";
+            //     p.BootstrapServers = "localhost:9092";
+            //     p.AllowAutoCreateTopics = true;
+            // });
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

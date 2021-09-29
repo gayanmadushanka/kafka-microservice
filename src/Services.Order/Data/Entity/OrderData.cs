@@ -10,11 +10,4 @@ namespace Services.Order.Data
         public double Price { get; set; }
         public string Status { get; set; }
     }
-
-    public enum OrderStatus
-    {
-        ORDER_CREATED,
-        ORDER_COMPLETED,
-        ORDER_CANCELLED
-    }
 }

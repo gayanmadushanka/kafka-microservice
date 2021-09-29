@@ -1,7 +1,10 @@
+
 using System;
-namespace Shared.Dto
+using MediatR;
+
+namespace Services.Orchestrator.Commands
 {
-    public class OrchestratorResponseDTO
+    public class UpdateOrderCommand : IRequest
     {
         public Guid OrderId { get; set; }
         public string Status { get; set; }
