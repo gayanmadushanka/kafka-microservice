@@ -22,7 +22,7 @@ namespace Services.Order.Data.Migrations
                 .HasAnnotation("ProductVersion", "3.1.2")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
-            modelBuilder.Entity("Services.Order.Data.OrderData", b =>
+            modelBuilder.Entity("Services.Order.Data.Order", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -34,8 +34,11 @@ namespace Services.Order.Data.Migrations
                     b.Property<int>("ProductId")
                         .HasColumnType("integer");
 
-                    b.Property<int>("Price")
-                   .HasColumnType("integer");
+                    b.Property<double>("Price")
+                   .HasColumnType("double");
+
+                    b.Property<string>("Status")
+                                      .HasColumnType("string");
 
                     b.HasKey("Id");
 

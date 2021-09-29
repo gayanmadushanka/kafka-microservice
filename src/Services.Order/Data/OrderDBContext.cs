@@ -7,6 +7,7 @@ namespace Services.Order.Data
         public OrderDBContext(DbContextOptions<OrderDBContext> options) : base(options)
         {
         }
+
         public DbSet<OrderData> Orders { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

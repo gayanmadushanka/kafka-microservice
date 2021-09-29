@@ -16,9 +16,10 @@ namespace Services.Order.Data.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(nullable: false),
-                    UserId = table.Column<int>(),
-                    ProductId = table.Column<int>(),
-                    Price = table.Column<int>(),
+                    UserId = table.Column<int>(nullable: false),
+                    ProductId = table.Column<int>(nullable: false),
+                    Price = table.Column<double>(nullable: false),
+                    Status = table.Column<string>(nullable: false),
                 },
                 constraints: table =>
                 {

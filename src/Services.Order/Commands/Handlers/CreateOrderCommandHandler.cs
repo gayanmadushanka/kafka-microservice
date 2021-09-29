@@ -8,7 +8,7 @@ using Shared.Kafka;
 
 namespace Services.Order.Commands.Handlers
 {
-    public class CreateOrderCommandHandler : AsyncRequestHandler<CreateOrderCommand>
+    public class CreateOrderCommandHandler : IRequestHandler<CreateOrderCommand, OrderData>
     {
         private readonly OrderDBContext _dbContext;
         private readonly IKafkaMessageBus<int, OrderData> _bus;
@@ -19,7 +19,7 @@ namespace Services.Order.Commands.Handlers
             _dbContext = dbContext;
         }
 
-        protected override async Task Handle(CreateOrderCommand command, CancellationToken cancellationToken)
+        public async Task<OrderData> Handle(CreateOrderCommand command, CancellationToken cancellationToken)
         {
             if (await _dbContext.Orders.AsNoTracking().AnyAsync(s => s.UserId == command.UserId))
                 throw new ApplicationException("User is already exist.");
@@ -29,7 +29,8 @@ namespace Services.Order.Commands.Handlers
                 Id = command.Id,
                 UserId = command.UserId,
                 ProductId = command.ProductId,
-                Price = command.Price,
+                Price = 100,
+                Status = OrderStatus.ORDER_CREATED.ToString()
             };
 
             _dbContext.Orders.Add(order);
@@ -37,6 +38,8 @@ namespace Services.Order.Commands.Handlers
             await _dbContext.SaveChangesAsync();
 
             await _bus.PublishAsync(command.UserId, order);
+
+            return order;
         }
     }
 }

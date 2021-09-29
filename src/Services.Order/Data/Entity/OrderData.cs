@@ -7,6 +7,14 @@ namespace Services.Order.Data
         public Guid Id { get; set; }
         public int UserId { get; set; }
         public int ProductId { get; set; }
-        public int Price { get; set; }
+        public double Price { get; set; }
+        public string Status { get; set; }
+    }
+
+    public enum OrderStatus
+    {
+        ORDER_CREATED,
+        ORDER_COMPLETED,
+        ORDER_CANCELLED
     }
 }
