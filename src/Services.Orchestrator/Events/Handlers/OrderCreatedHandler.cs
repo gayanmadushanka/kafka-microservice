@@ -10,11 +10,11 @@ namespace Services.Orchestrator.Events.Handlers
 {
     public class OrderCreatedHandler : IKafkaHandler<string, OrchestratorRequestDTO>
     {
-        // private readonly IMediator _mediator;
-        // public OrderCreatedHandler(IMediator mediator)
-        // {
-        //     _mediator = mediator;
-        // }
+        private readonly IMediator _mediator;
+        public OrderCreatedHandler(IMediator mediator)
+        {
+            _mediator = mediator;
+        }
 
         public async Task HandleAsync(string key, OrchestratorRequestDTO value)
         {
@@ -23,10 +23,11 @@ namespace Services.Orchestrator.Events.Handlers
                 OrderId = value.OrderId,
                 Status = OrderStatus.ORDER_COMPLETED.ToString()
             };
-            // await _mediator.Send(command);
-
             Console.WriteLine("KLAS");
-            await Task.Delay(1000);
+            await _mediator.Send(command);
+
+            // Console.WriteLine("KLAS");
+            // await Task.Delay(1000);
         }
     }
 }

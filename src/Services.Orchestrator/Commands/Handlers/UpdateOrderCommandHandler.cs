@@ -8,24 +8,26 @@ using System.Threading;
 
 namespace Services.Orchestrator.Commands.Handlers
 {
-    // public class UpdateOrderCommandHandler : AsyncRequestHandler<UpdateOrderCommand>
-    // {
-    //     private readonly IKafkaMessageBus<string, OrchestratorResponseDTO> _bus;
+    public class UpdateOrderCommandHandler : AsyncRequestHandler<UpdateOrderCommand>
+    {
+        // private readonly IKafkaMessageBus<string, OrchestratorResponseDTO> _bus;
 
 
-    //     UpdateOrderCommandHandler(IKafkaMessageBus<string, OrchestratorResponseDTO> bus)
-    //     {
-    //         _bus = bus;
-    //     }
+        // UpdateOrderCommandHandler(IKafkaMessageBus<string, OrchestratorResponseDTO> bus)
+        // {
+        //     _bus = bus;
+        // }
 
-    //     protected override async Task Handle(UpdateOrderCommand value, CancellationToken cancellationToken)
-    //     {
-    //         var orchestratorResponseDTO = new OrchestratorResponseDTO
-    //         {
-    //             OrderId = value.OrderId,
-    //             Status = value.Status
-    //         };
-    //         await _bus.PublishAsync(value.OrderId.ToString(), orchestratorResponseDTO);
-    //     }
-    // }
+        protected override async Task Handle(UpdateOrderCommand value, CancellationToken cancellationToken)
+        {
+            var orchestratorResponseDTO = new OrchestratorResponseDTO
+            {
+                OrderId = value.OrderId,
+                Status = value.Status
+            };
+            Console.WriteLine("DFC");
+            await Task.Delay(1000);
+            // await _bus.PublishAsync(value.OrderId.ToString(), orchestratorResponseDTO);
+        }
+    }
 }

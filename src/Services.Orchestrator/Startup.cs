@@ -24,7 +24,7 @@ namespace Services.Orchestrator
 
         public void ConfigureServices(IServiceCollection services)
         {
-            // services.AddMediatR(typeof(UpdateOrderCommandHandler).GetTypeInfo().Assembly);
+            services.AddMediatR(typeof(UpdateOrderCommandHandler).GetTypeInfo().Assembly);
 
             services.AddControllers();
 
