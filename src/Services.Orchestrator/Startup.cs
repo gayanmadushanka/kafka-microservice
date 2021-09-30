@@ -6,6 +6,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Services.Orchestrator.Events.Handlers;
 using Services.Orchestrator.Commands.Handlers;
+using Services.Orchestrator.Commands;
 using Shared.Kafka;
 using Shared.Dto;
 using MediatR;
@@ -24,11 +25,22 @@ namespace Services.Orchestrator
 
         public void ConfigureServices(IServiceCollection services)
         {
+            // services.AddScoped<UpdateOrderCommand>();
+
             services.AddMediatR(typeof(UpdateOrderCommandHandler).GetTypeInfo().Assembly);
+            // services.AddMediatR(typeof(UpdateOrderCommandHandler));
+
+            // services.AddScoped(typeof(IUniversityRepository), typeof(UniversitySqlServerRepository));
 
             services.AddControllers();
 
-            // services.AddKafkaMessageBus();
+            services.AddKafkaMessageBus();
+
+            services.AddKafkaProducer<string, OrchestratorResponseDTO>(p =>
+            {
+                p.Topic = "order-updated";
+                p.BootstrapServers = "localhost:9092";
+            });
 
             services.AddKafkaConsumer<string, OrchestratorRequestDTO, OrderCreatedHandler>(p =>
             {
@@ -38,11 +50,7 @@ namespace Services.Orchestrator
                 p.AllowAutoCreateTopics = true;
             });
 
-            // services.AddKafkaProducer<string, OrchestratorResponseDTO>(p =>
-            // {
-            //     p.Topic = "order-updated";
-            //     p.BootstrapServers = "localhost:9092";
-            // });
+
 
         }
 

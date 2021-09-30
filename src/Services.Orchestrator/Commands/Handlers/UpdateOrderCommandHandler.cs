@@ -12,7 +12,6 @@ namespace Services.Orchestrator.Commands.Handlers
     {
         // private readonly IKafkaMessageBus<string, OrchestratorResponseDTO> _bus;
 
-
         // UpdateOrderCommandHandler(IKafkaMessageBus<string, OrchestratorResponseDTO> bus)
         // {
         //     _bus = bus;

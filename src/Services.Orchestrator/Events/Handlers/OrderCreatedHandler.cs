@@ -23,11 +23,7 @@ namespace Services.Orchestrator.Events.Handlers
                 OrderId = value.OrderId,
                 Status = OrderStatus.ORDER_COMPLETED.ToString()
             };
-            Console.WriteLine("KLAS");
             await _mediator.Send(command);
-
-            // Console.WriteLine("KLAS");
-            // await Task.Delay(1000);
         }
     }
 }
