@@ -28,13 +28,9 @@ namespace Services.Order
             services.AddDbContext<OrderDBContext>(options =>
                 options.UseNpgsql(Configuration.GetConnectionString("DefaultConnection"))
             );
-
             services.AddMediatR(typeof(CreateOrderCommandHandler).GetTypeInfo().Assembly);
-
             services.AddControllers();
-
             services.AddKafkaMessageBus();
-
             services.AddKafkaProducer<string, OrchestratorRequestDTO>(p =>
             {
                 p.Topic = "order-created";
@@ -56,9 +52,7 @@ namespace Services.Order
             {
                 app.UseDeveloperExceptionPage();
             }
-
             DbInitilializer.Initialize(app.ApplicationServices);
-
             app.UseRouting();
             app.UseAuthorization();
             app.UseEndpoints(endpoints =>

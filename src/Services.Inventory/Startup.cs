@@ -26,7 +26,6 @@ namespace Services.Inventory
             {
                 app.UseDeveloperExceptionPage();
             }
-
             app.UseRouting();
             app.UseAuthorization();
             app.UseEndpoints(endpoints =>

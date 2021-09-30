@@ -26,17 +26,18 @@ namespace Services.Orchestrator.Events.Handlers
         {
             Console.WriteLine("CALLED");
 
-            var paymentStep = _workflowStepFactory.GetWorkflowStep("Payment");
-            if (!await paymentStep.Process(value))
-            {
+            // var paymentStep = _workflowStepFactory.GetWorkflowStep("Payment");
+            // if (!await paymentStep.Process(value))
+            // {
 
-            }
+            // }
 
-            var inventoryStep = _workflowStepFactory.GetWorkflowStep("Inventory");
-            if (!await inventoryStep.Process(value))
-            {
-                await paymentStep.Revert(value);
-            }
+            // var inventoryStep = _workflowStepFactory.GetWorkflowStep("Inventory");
+            // if (!await inventoryStep.Process(value))
+            // {
+            //     await paymentStep.Revert(value);
+            // }
+
 
             // var command = new UpdateOrderCommand
             // {

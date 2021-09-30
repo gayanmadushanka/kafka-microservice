@@ -27,24 +27,14 @@ namespace Services.Orchestrator
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddHttpClient();
-
             services.AddSingleton<IWorkflowStepFactory, WorkflowStepFactory>();
-
             services.AddMediatR(typeof(UpdateOrderCommandHandler).GetTypeInfo().Assembly);
-            // services.AddMediatR(typeof(UpdateOrderCommandHandler));
-
-            // services.AddScoped(typeof(IUniversityRepository), typeof(UniversitySqlServerRepository));
-
-            services.AddControllers();
-
             services.AddKafkaMessageBus();
-
             services.AddKafkaProducer<string, OrchestratorResponseDTO>(p =>
             {
                 p.Topic = "order-updated";
                 p.BootstrapServers = "localhost:9092";
             });
-
             services.AddKafkaConsumer<string, OrchestratorRequestDTO, OrderCreatedHandler>(p =>
             {
                 p.Topic = "order-created";
@@ -53,8 +43,8 @@ namespace Services.Orchestrator
                 p.AllowAutoCreateTopics = true;
             });
 
-
-
+            // services.AddMediatR(typeof(UpdateOrderCommandHandler));
+            // services.AddScoped(typeof(IUniversityRepository), typeof(UniversitySqlServerRepository));
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -63,13 +53,6 @@ namespace Services.Orchestrator
             {
                 app.UseDeveloperExceptionPage();
             }
-
-            app.UseRouting();
-            app.UseAuthorization();
-            app.UseEndpoints(endpoints =>
-            {
-                endpoints.MapControllers();
-            });
         }
     }
 }
