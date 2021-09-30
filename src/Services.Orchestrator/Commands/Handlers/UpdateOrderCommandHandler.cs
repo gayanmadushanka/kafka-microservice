@@ -5,17 +5,18 @@ using System;
 using Shared.Kafka;
 using MediatR;
 using System.Threading;
+using Services.Orchestrator.Commands;
 
 namespace Services.Orchestrator.Commands.Handlers
 {
     public class UpdateOrderCommandHandler : AsyncRequestHandler<UpdateOrderCommand>
     {
-        // private readonly IKafkaMessageBus<string, OrchestratorResponseDTO> _bus;
+        private readonly IKafkaMessageBus<string, OrchestratorResponseDTO> _bus;
 
-        // UpdateOrderCommandHandler(IKafkaMessageBus<string, OrchestratorResponseDTO> bus)
-        // {
-        //     _bus = bus;
-        // }
+        public UpdateOrderCommandHandler(IKafkaMessageBus<string, OrchestratorResponseDTO> bus)
+        {
+            _bus = bus;
+        }
 
         protected override async Task Handle(UpdateOrderCommand value, CancellationToken cancellationToken)
         {

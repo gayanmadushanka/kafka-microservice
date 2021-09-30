@@ -39,12 +39,12 @@ namespace Services.Orchestrator.Events.Handlers
             // }
 
 
-            // var command = new UpdateOrderCommand
-            // {
-            //     OrderId = value.OrderId,
-            //     Status = OrderStatus.ORDER_COMPLETED.ToString()
-            // };
-            // await _mediator.Send(command);
+            var command = new UpdateOrderCommand
+            {
+                OrderId = value.OrderId,
+                Status = OrderStatus.ORDER_COMPLETED.ToString()
+            };
+            await _mediator.Send(command);
         }
     }
 }

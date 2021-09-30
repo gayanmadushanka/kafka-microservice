@@ -11,6 +11,10 @@ using Services.Order.Events.Handlers;
 using Services.Order.Data;
 using Shared.Kafka;
 using Shared.Dto;
+using System.Threading.Tasks;
+using System;
+using Microsoft.AspNetCore.Diagnostics;
+using Newtonsoft.Json;
 
 namespace Services.Order
 {
@@ -37,21 +41,26 @@ namespace Services.Order
                 p.BootstrapServers = "localhost:9092";
             });
 
-            // services.AddKafkaConsumer<string, OrchestratorResponseDTO, OrderUpdatedHandler>(p =>
-            // {
-            //     p.Topic = "order-updated";
-            //     p.GroupId = "orders-updated-group";
-            //     p.BootstrapServers = "localhost:9092";
-            //     p.AllowAutoCreateTopics = true;
-            // });
+            services.AddKafkaConsumer<string, OrchestratorResponseDTO, OrderUpdatedHandler>(p =>
+            {
+                p.Topic = "order-updated";
+                p.GroupId = "orders-updated-group";
+                p.BootstrapServers = "localhost:9092";
+                p.AllowAutoCreateTopics = true;
+            });
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            if (env.IsDevelopment())
+            app.UseExceptionHandler(c => c.Run(async context =>
             {
-                app.UseDeveloperExceptionPage();
-            }
+                var exception = context.Features
+                    .Get<IExceptionHandlerPathFeature>()
+                    .Error;
+                Console.WriteLine($"XDCF : {exception.Message}");
+                Console.WriteLine(exception);
+                await Task.Delay(1000);
+            }));
             DbInitilializer.Initialize(app.ApplicationServices);
             app.UseRouting();
             app.UseAuthorization();
