@@ -17,8 +17,8 @@ namespace Services.Payment.Controllers
         {
             Console.WriteLine("Debit CALLED");
             await Task.Delay(1000);
-            // return Ok();
-            return BadRequest();
+            return Ok();
+            // return BadRequest();
         }
 
         [HttpPost("credit")]

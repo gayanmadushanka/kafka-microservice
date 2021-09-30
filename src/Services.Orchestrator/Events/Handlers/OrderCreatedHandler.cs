@@ -8,39 +8,29 @@ using MediatR;
 using System.Net.Http;
 using Newtonsoft.Json;
 using System.Text;
+using Services.Orchestrator.Workflow;
 
 namespace Services.Orchestrator.Events.Handlers
 {
     public class OrderCreatedHandler : IKafkaHandler<string, OrchestratorRequestDTO>
     {
         private readonly IMediator _mediator;
-        private readonly IHttpClientFactory _clientFactory;
-        public OrderCreatedHandler(IMediator mediator, IHttpClientFactory clientFactory)
+        private readonly IWorkflowStepFactory _workflowStepFactory;
+        public OrderCreatedHandler(IMediator mediator, IWorkflowStepFactory workflowStepFactory)
         {
             _mediator = mediator;
-            _clientFactory = clientFactory;
+            _workflowStepFactory = workflowStepFactory;
         }
 
         public async Task HandleAsync(string key, OrchestratorRequestDTO value)
         {
             Console.WriteLine("CALLED");
 
-            string json = JsonConvert.SerializeObject(value);
-            StringContent data = new StringContent(json, Encoding.UTF8, "application/json");
+            var paymentStep = _workflowStepFactory.GetWorkflowStep("Payment");
+            await paymentStep.Process(value);
 
-            using (var client = _clientFactory.CreateClient())
-            {
-                var url = "http://localhost:5003/api/payment/debit";
-                var response = await client.PostAsync(url, data);
-                if (response.IsSuccessStatusCode)
-                {
-                    Console.WriteLine("SUCCEDE");
-                }
-                else
-                {
-                    Console.WriteLine("FAILED");
-                }
-            }
+            var inventoryStep = _workflowStepFactory.GetWorkflowStep("Inventory");
+            await inventoryStep.Process(value);
 
             // var command = new UpdateOrderCommand
             // {
@@ -48,7 +38,6 @@ namespace Services.Orchestrator.Events.Handlers
             //     Status = OrderStatus.ORDER_COMPLETED.ToString()
             // };
             // await _mediator.Send(command);
-
         }
     }
 }

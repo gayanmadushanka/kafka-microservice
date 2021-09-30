@@ -11,6 +11,7 @@ using Shared.Kafka;
 using Shared.Dto;
 using MediatR;
 using System.Reflection;
+using Services.Orchestrator.Workflow;
 
 namespace Services.Orchestrator
 {
@@ -27,7 +28,7 @@ namespace Services.Orchestrator
         {
             services.AddHttpClient();
 
-            // services.AddScoped<UpdateOrderCommand>();
+            services.AddSingleton<IWorkflowStepFactory, WorkflowStepFactory>();
 
             services.AddMediatR(typeof(UpdateOrderCommandHandler).GetTypeInfo().Assembly);
             // services.AddMediatR(typeof(UpdateOrderCommandHandler));

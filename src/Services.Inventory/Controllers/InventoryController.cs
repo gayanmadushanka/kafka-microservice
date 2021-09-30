@@ -15,15 +15,17 @@ namespace Services.Inventory.Controllers
         [HttpPost("deduct")]
         public async Task<ActionResult> Deduct([FromBody] DeductInventoryCommand command)
         {
+            Console.WriteLine("Deduct CALLED");
             await Task.Delay(1000);
-            return Ok("Deduct");
+            return Ok();
         }
 
         [HttpPost("add")]
         public async Task<ActionResult> Add([FromBody] AddInventoryCommand command)
         {
+            Console.WriteLine("Add CALLED");
             await Task.Delay(1000);
-            return Ok("Add");
+            return Ok();
         }
     }
 }
