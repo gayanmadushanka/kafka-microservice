@@ -20,7 +20,7 @@ namespace Services.Order.Events.Handlers
 
         public async Task HandleAsync(string key, OrchestratorResponseDTO value)
         {
-            Console.WriteLine("SSDD");
+            Console.WriteLine("OrderUpdatedHandler Called");
             var order = await _dbContext.Orders.FindAsync(value.OrderId);
             order.Status = value.Status;
             _dbContext.Orders.Update(order);

@@ -42,9 +42,6 @@ namespace Services.Orchestrator
                 p.BootstrapServers = "localhost:9092";
                 p.AllowAutoCreateTopics = true;
             });
-
-            // services.AddMediatR(typeof(UpdateOrderCommandHandler));
-            // services.AddScoped(typeof(IUniversityRepository), typeof(UniversitySqlServerRepository));
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

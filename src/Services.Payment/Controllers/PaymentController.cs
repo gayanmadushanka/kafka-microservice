@@ -15,17 +15,28 @@ namespace Services.Payment.Controllers
         [HttpPost("debit")]
         public async Task<ActionResult> Debit([FromBody] DebitPaymentCommand command)
         {
-            Console.WriteLine("Debit CALLED");
             await Task.Delay(1000);
+            var random = new Random();
+            if (random.NextDouble() < 0.5)
+            {
+                Console.WriteLine("Payment Debit Failed");
+                return BadRequest();
+            }
+            Console.WriteLine("Payment Debit Succeed");
             return Ok();
-            // return BadRequest();
         }
 
         [HttpPost("credit")]
         public async Task<ActionResult> Credit([FromBody] CreditPaymentCommand command)
         {
-            Console.WriteLine("Credit CALLED");
             await Task.Delay(1000);
+            var random = new Random();
+            if (random.NextDouble() < 0.5)
+            {
+                Console.WriteLine("Payment Credit Failed");
+                return BadRequest();
+            }
+            Console.WriteLine("Payment Credit Succeed");
             return Ok();
         }
     }

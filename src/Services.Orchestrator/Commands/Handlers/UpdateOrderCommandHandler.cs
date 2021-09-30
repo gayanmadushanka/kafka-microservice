@@ -20,14 +20,13 @@ namespace Services.Orchestrator.Commands.Handlers
 
         protected override async Task Handle(UpdateOrderCommand value, CancellationToken cancellationToken)
         {
+            Console.WriteLine("UpdateOrderCommandHandler Called");
             var orchestratorResponseDTO = new OrchestratorResponseDTO
             {
                 OrderId = value.OrderId,
                 Status = value.Status
             };
-            Console.WriteLine("DFC");
-            await Task.Delay(1000);
-            // await _bus.PublishAsync(value.OrderId.ToString(), orchestratorResponseDTO);
+            await _bus.PublishAsync(value.OrderId.ToString(), orchestratorResponseDTO);
         }
     }
 }

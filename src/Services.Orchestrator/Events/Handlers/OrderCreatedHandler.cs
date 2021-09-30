@@ -9,6 +9,7 @@ using System.Net.Http;
 using Newtonsoft.Json;
 using System.Text;
 using Services.Orchestrator.Workflow;
+using System.Collections.Generic;
 
 namespace Services.Orchestrator.Events.Handlers
 {
@@ -24,27 +25,58 @@ namespace Services.Orchestrator.Events.Handlers
 
         public async Task HandleAsync(string key, OrchestratorRequestDTO value)
         {
-            Console.WriteLine("CALLED");
-
-            // var paymentStep = _workflowStepFactory.GetWorkflowStep("Payment");
-            // if (!await paymentStep.Process(value))
-            // {
-
-            // }
-
-            // var inventoryStep = _workflowStepFactory.GetWorkflowStep("Inventory");
-            // if (!await inventoryStep.Process(value))
-            // {
-            //     await paymentStep.Revert(value);
-            // }
-
-
-            var command = new UpdateOrderCommand
+            Console.WriteLine("OrderCreatedHandler Called");
+            var paymentStep = _workflowStepFactory.GetWorkflowStep("Payment");
+            var inventoryStep = _workflowStepFactory.GetWorkflowStep("Inventory");
+            var processTasks = new List<Task<bool>>();
+            processTasks.Add(paymentStep.Process(value));
+            processTasks.Add(inventoryStep.Process(value));
+            var processTasksResults = await Task.WhenAll(processTasks);
+            if (IsAllSucceed(processTasksResults))
             {
-                OrderId = value.OrderId,
-                Status = OrderStatus.ORDER_COMPLETED.ToString()
-            };
-            await _mediator.Send(command);
+                await SendUpdateOrderCommand(value.OrderId, OrderStatus.ORDER_COMPLETED);
+                Console.WriteLine("ORDER_COMPLETED");
+                Console.WriteLine("------------------");
+                return;
+            }
+            int i = 0;
+            do
+            {
+                var revertTasks = new List<Task<bool>>();
+                revertTasks.Add(paymentStep.Revert(value));
+                revertTasks.Add(inventoryStep.Revert(value));
+                var revertTasksResults = await Task.WhenAll(revertTasks);
+                if (IsAllSucceed(revertTasksResults))
+                {
+                    break;
+                }
+                i++;
+            } while (i < 10);
+            await SendUpdateOrderCommand(value.OrderId, OrderStatus.ORDER_CANCELLED);
+            Console.WriteLine("ORDER_CANCELLED");
+            Console.WriteLine("------------------");
+            return;
+        }
+
+        private async Task SendUpdateOrderCommand(Guid orderId, OrderStatus status)
+        {
+            await _mediator.Send(new UpdateOrderCommand
+            {
+                OrderId = orderId,
+                Status = status.ToString()
+            });
+        }
+
+        private bool IsAllSucceed(bool[] results)
+        {
+            foreach (var result in results)
+            {
+                if (!result)
+                {
+                    return false;
+                }
+            }
+            return true;
         }
     }
 }

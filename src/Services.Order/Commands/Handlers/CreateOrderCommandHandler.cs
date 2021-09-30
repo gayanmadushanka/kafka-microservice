@@ -24,7 +24,6 @@ namespace Services.Order.Commands.Handlers
         {
             if (await _dbContext.Orders.AsNoTracking().AnyAsync(s => s.UserId == command.UserId))
                 throw new ApplicationException("User is already exist.");
-
             var order = new OrderData
             {
                 Id = command.Id,
@@ -33,11 +32,8 @@ namespace Services.Order.Commands.Handlers
                 Price = 100,
                 Status = OrderStatus.ORDER_CREATED.ToString()
             };
-
             _dbContext.Orders.Add(order);
-
             await _dbContext.SaveChangesAsync();
-
             var orchestratorRequestDTO = new OrchestratorRequestDTO
             {
                 OrderId = order.Id,
@@ -45,9 +41,7 @@ namespace Services.Order.Commands.Handlers
                 ProductId = order.ProductId,
                 Price = order.Price,
             };
-
             await _bus.PublishAsync(orchestratorRequestDTO.OrderId.ToString(), orchestratorRequestDTO);
-
             return order;
         }
     }
