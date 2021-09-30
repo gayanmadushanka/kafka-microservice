@@ -15,15 +15,18 @@ namespace Services.Payment.Controllers
         [HttpPost("debit")]
         public async Task<ActionResult> Debit([FromBody] DebitPaymentCommand command)
         {
+            Console.WriteLine("Debit CALLED");
             await Task.Delay(1000);
-            return Ok("Debit");
+            // return Ok();
+            return BadRequest();
         }
 
         [HttpPost("credit")]
         public async Task<ActionResult> Credit([FromBody] CreditPaymentCommand command)
         {
+            Console.WriteLine("Credit CALLED");
             await Task.Delay(1000);
-            return Ok("Credit");
+            return Ok();
         }
     }
 }

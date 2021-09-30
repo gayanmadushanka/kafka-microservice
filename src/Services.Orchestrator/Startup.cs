@@ -25,6 +25,8 @@ namespace Services.Orchestrator
 
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddHttpClient();
+
             // services.AddScoped<UpdateOrderCommand>();
 
             services.AddMediatR(typeof(UpdateOrderCommandHandler).GetTypeInfo().Assembly);
