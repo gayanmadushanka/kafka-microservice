@@ -15,13 +15,13 @@ namespace Services.Inventory.Controllers
         [HttpPost("deduct")]
         public async Task<ActionResult> Deduct([FromBody] DeductInventoryCommand command)
         {
-            // await Task.Delay(1000);
-            // var random = new Random();
-            // if (random.NextDouble() < 0.5)
-            // {
-            //     Console.WriteLine("Inventory Deduct Failed");
-            //     return BadRequest();
-            // }
+            await Task.Delay(1000);
+            var random = new Random();
+            if (random.NextDouble() < 0.5)
+            {
+                Console.WriteLine("Inventory Deduct Failed");
+                return BadRequest();
+            }
             Console.WriteLine("Inventory Deduct Succeed");
             return Ok();
         }
