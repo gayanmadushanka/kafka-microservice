@@ -16,12 +16,12 @@ namespace Services.Payment.Controllers
         public async Task<ActionResult> Debit([FromBody] DebitPaymentCommand command)
         {
             await Task.Delay(1000);
-            var random = new Random();
-            if (random.NextDouble() < 0.5)
-            {
-                Console.WriteLine("Payment Debit Failed");
-                return BadRequest();
-            }
+            // var random = new Random();
+            // if (random.NextDouble() < 0.5)
+            // {
+            //     Console.WriteLine("Payment Debit Failed");
+            //     return BadRequest();
+            // }
             Console.WriteLine("Payment Debit Succeed");
             return Ok();
         }

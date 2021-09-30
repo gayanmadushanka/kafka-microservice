@@ -28,9 +28,11 @@ namespace Services.Orchestrator.Events.Handlers
             Console.WriteLine("OrderCreatedHandler Called");
             var paymentStep = _workflowStepFactory.GetWorkflowStep("Payment");
             var inventoryStep = _workflowStepFactory.GetWorkflowStep("Inventory");
-            var processTasks = new List<Task<bool>>();
-            processTasks.Add(paymentStep.Process(value));
-            processTasks.Add(inventoryStep.Process(value));
+            var processTasks = new List<Task<bool>>()
+            {
+                paymentStep.Process(value),
+                inventoryStep.Process(value)
+            };
             var processTasksResults = await Task.WhenAll(processTasks);
             if (IsAllSucceed(processTasksResults))
             {
@@ -41,29 +43,17 @@ namespace Services.Orchestrator.Events.Handlers
             }
             await Retry(10, async () =>
             {
-                var revertTasks = new List<Task<bool>>();
-                revertTasks.Add(paymentStep.Revert(value));
-                revertTasks.Add(inventoryStep.Revert(value));
+                var revertTasks = new List<Task<bool>>()
+                {
+                    paymentStep.Revert(value),
+                    inventoryStep.Revert(value)
+                };
                 var revertTasksResults = await Task.WhenAll(revertTasks);
                 return IsAllSucceed(revertTasksResults);
             });
             await SendUpdateOrderCommand(value.OrderId, OrderStatus.ORDER_CANCELLED);
             Console.WriteLine("ORDER_CANCELLED");
             Console.WriteLine("------------------");
-            return;
-        }
-
-        private async Task Retry(int count, Func<Task<bool>> func)
-        {
-            int i = 0;
-            do
-            {
-                if (await func())
-                {
-                    break;
-                }
-                i++;
-            } while (i < count);
             return;
         }
 
@@ -86,6 +76,20 @@ namespace Services.Orchestrator.Events.Handlers
                 }
             }
             return true;
+        }
+
+        private async Task Retry(int count, Func<Task<bool>> func)
+        {
+            int i = 0;
+            do
+            {
+                if (await func())
+                {
+                    break;
+                }
+                i++;
+            } while (i < count);
+            return;
         }
     }
 }
