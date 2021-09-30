@@ -22,8 +22,8 @@ namespace Services.Order.Commands.Handlers
 
         public async Task<OrderData> Handle(CreateOrderCommand command, CancellationToken cancellationToken)
         {
-            if (await _dbContext.Orders.AsNoTracking().AnyAsync(s => s.UserId == command.UserId))
-                throw new ApplicationException("User is already exist.");
+            // if (await _dbContext.Orders.AsNoTracking().AnyAsync(s => s.UserId == command.UserId))
+            //     throw new ApplicationException("User is already exist.");
             var order = new OrderData
             {
                 Id = command.Id,
