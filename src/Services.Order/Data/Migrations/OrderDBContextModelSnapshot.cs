@@ -33,10 +33,10 @@ namespace Services.Order.Data.Migrations
                         .HasColumnType("integer");
 
                     b.Property<double>("Price")
-                    .HasColumnType("double");
+                    .HasColumnType("double precision");
 
                     b.Property<string>("Status")
-                                      .HasColumnType("string");
+                                      .HasColumnType("text");
 
                     b.HasKey("Id");
 
