@@ -39,22 +39,31 @@ namespace Services.Orchestrator.Events.Handlers
                 Console.WriteLine("------------------");
                 return;
             }
-            int i = 0;
-            do
+            await Retry(10, async () =>
             {
                 var revertTasks = new List<Task<bool>>();
                 revertTasks.Add(paymentStep.Revert(value));
                 revertTasks.Add(inventoryStep.Revert(value));
                 var revertTasksResults = await Task.WhenAll(revertTasks);
-                if (IsAllSucceed(revertTasksResults))
+                return IsAllSucceed(revertTasksResults);
+            });
+            await SendUpdateOrderCommand(value.OrderId, OrderStatus.ORDER_CANCELLED);
+            Console.WriteLine("ORDER_CANCELLED");
+            Console.WriteLine("------------------");
+            return;
+        }
+
+        private async Task Retry(int count, Func<Task<bool>> func)
+        {
+            int i = 0;
+            do
+            {
+                if (await func())
                 {
                     break;
                 }
                 i++;
-            } while (i < 10);
-            await SendUpdateOrderCommand(value.OrderId, OrderStatus.ORDER_CANCELLED);
-            Console.WriteLine("ORDER_CANCELLED");
-            Console.WriteLine("------------------");
+            } while (i < count);
             return;
         }
 
