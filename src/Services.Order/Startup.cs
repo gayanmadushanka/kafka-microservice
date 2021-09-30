@@ -40,13 +40,13 @@ namespace Services.Order
                 p.Topic = "order-created";
                 p.BootstrapServers = "localhost:9092";
             });
-            // services.AddKafkaConsumer<string, OrchestratorResponseDTO, OrderUpdatedHandler>(p =>
-            // {
-            //     p.Topic = "order-updated";
-            //     p.GroupId = "orders-updated-group";
-            //     p.BootstrapServers = "localhost:9092";
-            //     p.AllowAutoCreateTopics = true;
-            // });
+            services.AddKafkaConsumer<string, OrchestratorResponseDTO, OrderUpdatedHandler>(p =>
+            {
+                p.Topic = "order-updated";
+                p.GroupId = "orders-updated-group";
+                p.BootstrapServers = "localhost:9092";
+                p.AllowAutoCreateTopics = true;
+            });
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
