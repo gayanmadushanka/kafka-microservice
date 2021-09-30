@@ -17,7 +17,8 @@ namespace Services.Inventory.Controllers
         {
             Console.WriteLine("Deduct CALLED");
             await Task.Delay(1000);
-            return Ok();
+            // return Ok();
+            return BadRequest();
         }
 
         [HttpPost("add")]
