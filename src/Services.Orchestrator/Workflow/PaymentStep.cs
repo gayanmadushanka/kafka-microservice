@@ -25,7 +25,7 @@ namespace Services.Orchestrator.Workflow
             {
                 using (var client = _clientFactory.CreateClient())
                 {
-                    var url = "http://localhost:5003/api/payment/debit";
+                    var url = "http://localhost:5004/api/payment/debit";
                     var data = new StringContent(JsonConvert.SerializeObject(value), Encoding.UTF8, "application/json");
                     var response = await client.PostAsync(url, data);
                     if (response.IsSuccessStatusCode)
@@ -47,7 +47,7 @@ namespace Services.Orchestrator.Workflow
             {
                 using (var client = _clientFactory.CreateClient())
                 {
-                    var url = "http://localhost:5003/api/payment/credit";
+                    var url = "http://localhost:5004/api/payment/credit";
                     var data = new StringContent(JsonConvert.SerializeObject(value), Encoding.UTF8, "application/json");
                     var response = await client.PostAsync(url, data);
                     if (response.IsSuccessStatusCode)

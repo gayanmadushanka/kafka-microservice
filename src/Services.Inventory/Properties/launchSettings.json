@@ -20,7 +20,7 @@
     "Services.Inventory": {
       "commandName": "Project",
       "launchBrowser": true,
-      "applicationUrl": "http://localhost:5004",
+      "applicationUrl": "http://localhost:5003",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       }

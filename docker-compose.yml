@@ -71,17 +71,42 @@ services:
   # services.orchestrator:
   #   image: services.orchestrator
   #   container_name: services.orchestrator
-  #   build:
-  #     context: .
-  #     dockerfile: Dockerfile
-  #   ports:
-  #     - "5005:5005"
   #   networks:
   #     - services.orchestrator
+  #   ports:
+  #     - "5002:5002"
+  #   build:
+  #     context: ./src/Services.orchestrator
+  #     dockerfile: Dockerfile
+
+  services.inventory:
+    image: services.inventory
+    container_name: services.inventory
+    networks:
+      - services.inventory
+    ports:
+      - "5003:5003"
+    build:
+      context: ./src/Services.Inventory
+      dockerfile: Dockerfile
+
+  services.payment:
+    image: services.payment
+    container_name: services.payment
+    networks:
+      - services.payment
+    ports:
+      - "5004:5004"
+    build:
+      context: ./src/Services.Payment
+      dockerfile: Dockerfile
 
 networks:
   broker-kafka:
     driver: bridge
 
-  # services.orchestrator:
-  #   driver: bridge
+  services.inventory:
+    driver: bridge
+
+  services.payment:
+    driver: bridge

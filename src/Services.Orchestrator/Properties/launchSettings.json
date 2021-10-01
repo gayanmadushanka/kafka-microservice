@@ -19,7 +19,7 @@
     "src": {
       "commandName": "Project",
       "launchBrowser": true,
-      "applicationUrl": "http://localhost:5005",
+      "applicationUrl": "http://localhost:5002",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
