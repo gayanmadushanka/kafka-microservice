@@ -4,13 +4,12 @@ EXPOSE 5001
 ENV ASPNETCORE_URLS=http://+:5001
 
 FROM mcr.microsoft.com/dotnet/core/sdk:3.1 AS build
-WORKDIR /src
-COPY ["Shared/Shared.csproj", "Shared/"]
-COPY ["Services.Order/Services.Order.csproj", "Services.Order/"]
+COPY ["src/Shared/Shared.csproj", "Shared/"]
+COPY ["src/Services.Order/Services.Order.csproj", "Services.Order/"]
 RUN dotnet restore "Services.Order/Services.Order.csproj"
 COPY . .
 
-WORKDIR "/src/Services.Order"
+WORKDIR /src/Services.Order
 RUN dotnet build "Services.Order.csproj" -c Release -o /app
 
 FROM build AS publish

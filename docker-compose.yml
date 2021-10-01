@@ -3,7 +3,7 @@ version: "3.7"
 services:
   postgres:
     image: postgres:10.6-alpine
-    container_name: kafka_dotnet_postgres
+    container_name: postgres
     networks:
       - broker-kafka
     ports:
@@ -54,6 +54,34 @@ services:
     environment:
       KAFKA_BROKERCONNECT: kafka:29092
 
+  services.order:
+    image: services.order
+    container_name: services.order
+    networks:
+      - broker-kafka
+    depends_on:
+      - kafka
+      - postgres
+    ports:
+      - "5001:5001"
+    build:
+      context: .
+      dockerfile: Dockerfile
+
+  # services.orchestrator:
+  #   image: services.orchestrator
+  #   container_name: services.orchestrator
+  #   build:
+  #     context: .
+  #     dockerfile: Dockerfile
+  #   ports:
+  #     - "5005:5005"
+  #   networks:
+  #     - services.orchestrator
+
 networks:
   broker-kafka:
     driver: bridge
+
+  # services.orchestrator:
+  #   driver: bridge
