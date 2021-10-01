@@ -1,7 +1,7 @@
 FROM mcr.microsoft.com/dotnet/core/aspnet:3.1 AS base
 WORKDIR /app
-EXPOSE 5003
-ENV ASPNETCORE_URLS=http://+:5003
+EXPOSE 5001
+ENV ASPNETCORE_URLS=http://+:5001
 
 FROM mcr.microsoft.com/dotnet/core/sdk:3.1 AS build
 WORKDIR /src
@@ -19,4 +19,4 @@ RUN dotnet publish "Services.Order.csproj" -c Release -o /app
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app .
-ENTRYPOINT ["dotnet", "Services.Order.dll", "--server.urls", "http://0.0.0.0:5003"]
+ENTRYPOINT ["dotnet", "Services.Order.dll", "--server.urls", "http://0.0.0.0:5001"]
