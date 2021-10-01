@@ -14,9 +14,12 @@ namespace Services.Orchestrator.Workflow
     public class InventoryStep : IWorkflowStep
     {
         private readonly IHttpClientFactory _clientFactory;
+        private readonly string _baseUrl;
         public InventoryStep(IHttpClientFactory clientFactory)
         {
             _clientFactory = clientFactory;
+            _baseUrl = "http://services.inventory:5003/api/Inventory";
+            // _baseUrl = "http://localhost:5003/api/Inventory";
         }
 
         public async Task<bool> Process(OrchestratorRequestDTO value)
@@ -25,7 +28,7 @@ namespace Services.Orchestrator.Workflow
             {
                 using (var client = _clientFactory.CreateClient())
                 {
-                    var url = "http://localhost:5003/api/Inventory/deduct";
+                    var url = $"{_baseUrl}/deduct";
                     var data = new StringContent(JsonConvert.SerializeObject(value), Encoding.UTF8, "application/json");
                     var response = await client.PostAsync(url, data);
                     if (response.IsSuccessStatusCode)
@@ -35,8 +38,9 @@ namespace Services.Orchestrator.Workflow
                     return false;
                 }
             }
-            catch (Exception)
+            catch (Exception e)
             {
+                Console.WriteLine(e);
                 return false;
             }
         }
@@ -47,7 +51,7 @@ namespace Services.Orchestrator.Workflow
             {
                 using (var client = _clientFactory.CreateClient())
                 {
-                    var url = "http://localhost:5003/api/Inventory/add";
+                    var url = $"{_baseUrl}/add";
                     var data = new StringContent(JsonConvert.SerializeObject(value), Encoding.UTF8, "application/json");
                     var response = await client.PostAsync(url, data);
                     if (response.IsSuccessStatusCode)
@@ -57,8 +61,9 @@ namespace Services.Orchestrator.Workflow
                     return false;
                 }
             }
-            catch (Exception)
+            catch (Exception e)
             {
+                Console.WriteLine(e);
                 return false;
             }
         }
