@@ -18,8 +18,8 @@ namespace Services.Orchestrator.Workflow
         public PaymentStep(IHttpClientFactory clientFactory)
         {
             _clientFactory = clientFactory;
-            _baseUrl = "http://services.payment:5004/api/payment";
-            // _baseUrl = "http://localhost:5004/api/payment";
+            // _baseUrl = "http://services.payment:5004/api/payment";
+            _baseUrl = "http://localhost:5004/api/payment";
         }
 
         public async Task<bool> Process(OrchestratorRequestDTO value)

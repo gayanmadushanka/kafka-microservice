@@ -11,22 +11,22 @@ namespace Services.Orchestrator.Commands.Handlers
 {
     public class UpdateOrderCommandHandler : AsyncRequestHandler<UpdateOrderCommand>
     {
-        // private readonly IKafkaMessageBus<string, OrchestratorResponseDTO> _bus;
+        private readonly IKafkaMessageBus<string, OrchestratorResponseDTO> _bus;
 
-        // public UpdateOrderCommandHandler(IKafkaMessageBus<string, OrchestratorResponseDTO> bus)
-        // {
-        //     _bus = bus;
-        // }
+        public UpdateOrderCommandHandler(IKafkaMessageBus<string, OrchestratorResponseDTO> bus)
+        {
+            _bus = bus;
+        }
 
         protected override async Task Handle(UpdateOrderCommand value, CancellationToken cancellationToken)
         {
             Console.WriteLine("UpdateOrderCommandHandler Called");
-            // var orchestratorResponseDTO = new OrchestratorResponseDTO
-            // {
-            //     OrderId = value.OrderId,
-            //     Status = value.Status
-            // };
-            // await _bus.PublishAsync(value.OrderId.ToString(), orchestratorResponseDTO);
+            var orchestratorResponseDTO = new OrchestratorResponseDTO
+            {
+                OrderId = value.OrderId,
+                Status = value.Status
+            };
+            await _bus.PublishAsync(value.OrderId.ToString(), orchestratorResponseDTO);
         }
     }
 }

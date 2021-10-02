@@ -29,21 +29,21 @@ namespace Services.Orchestrator
             services.AddHttpClient();
             services.AddSingleton<IWorkflowStepFactory, WorkflowStepFactory>();
             services.AddMediatR(typeof(UpdateOrderCommandHandler).GetTypeInfo().Assembly);
-            // services.AddKafkaMessageBus();
-            // services.AddKafkaProducer<string, OrchestratorResponseDTO>(p =>
-            // {
-            //     p.Topic = "order-updated";
-            //     p.BootstrapServers = "kafka:29092";
-            //     p.BootstrapServers = "localhost:9092";
-            // });
-            services.AddKafkaConsumer<string, OrchestratorRequestDTO, OrderCreatedHandler>(p =>
+            services.AddKafkaMessageBus();
+            services.AddKafkaProducer<string, OrchestratorResponseDTO>(p =>
             {
-                p.Topic = "order-created";
-                p.GroupId = "orders-created-group";
-                p.BootstrapServers = "kafka:29092";
-                // p.BootstrapServers = "localhost:9092";
-                p.AllowAutoCreateTopics = true;
+                p.Topic = "order-updated";
+                // p.BootstrapServers = "kafka:29092";
+                p.BootstrapServers = "localhost:9092";
             });
+            // services.AddKafkaConsumer<string, OrchestratorRequestDTO, OrderCreatedHandler>(p =>
+            // {
+            //     p.Topic = "order-created";
+            //     p.GroupId = "orders-created-group";
+            //     // p.BootstrapServers = "kafka:29092";
+            //     p.BootstrapServers = "localhost:9092";
+            //     p.AllowAutoCreateTopics = true;
+            // });
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
