@@ -40,7 +40,23 @@ services:
       KAFKA_LOG_CLEANER_DELETE_RETENTION_MS: 5000
       KAFKA_BROKER_ID: 1
       KAFKA_MIN_INSYNC_REPLICAS: 1
-      # KAFKA_AUTO_CREATE_TOPICS_ENABLE: "true"
+      KAFKA_AUTO_CREATE_TOPICS_ENABLE: "true"
+
+  create-topics:
+    image: confluentinc/cp-kafka:latest
+    hostname: create-topics
+    container_name: create-topics
+    networks:
+      - broker-kafka-network
+    depends_on:
+      - kafka
+    command: "bash -c 'cub kafka-ready -b kafka:29092 1 20 && \
+      kafka-topics --create --if-not-exists --zookeeper zookeeper:2181 --partitions 1 --replication-factor 1 --topic order-created && \
+      kafka-topics --create --if-not-exists --zookeeper zookeeper:2181 --partitions 1 --replication-factor 1 --topic order-updated && \
+      sleep 3600'"
+    environment:
+      KAFKA_BROKER_ID: ignored
+      KAFKA_ZOOKEEPER_CONNECT: ignored
 
   kafdrop:
     image: obsidiandynamics/kafdrop:latest
@@ -61,9 +77,11 @@ services:
       - broker-kafka-network
     depends_on:
       - kafka
+      - create-topics
       - postgres
     ports:
       - "5001:5001"
+    command: "bash -c 'cub kafka-ready -b kafka:29092 1 120'"
     build:
       context: .
       dockerfile: Dockerfile.order
@@ -77,9 +95,11 @@ services:
       - services-payment-network
     depends_on:
       - kafka
+      - create-topics
       - services.order
     ports:
       - "5002:5002"
+    command: "bash -c 'cub kafka-ready -b kafka:29092 1 3600'"
     build:
       context: .
       dockerfile: Dockerfile.orchestrator
