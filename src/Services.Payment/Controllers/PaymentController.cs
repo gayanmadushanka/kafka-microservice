@@ -15,7 +15,7 @@ namespace Services.Payment.Controllers
         [HttpPost("debit")]
         public async Task<ActionResult> Debit([FromBody] DebitPaymentCommand command)
         {
-            await Task.Delay(1000);
+            await Task.Delay(1);
             var random = new Random();
             if (random.NextDouble() < 0.5)
             {
@@ -29,7 +29,7 @@ namespace Services.Payment.Controllers
         [HttpPost("credit")]
         public async Task<ActionResult> Credit([FromBody] CreditPaymentCommand command)
         {
-            await Task.Delay(1000);
+            await Task.Delay(1);
             var random = new Random();
             if (random.NextDouble() < 0.5)
             {

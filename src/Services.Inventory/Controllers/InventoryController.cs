@@ -15,7 +15,7 @@ namespace Services.Inventory.Controllers
         [HttpPost("deduct")]
         public async Task<ActionResult> Deduct([FromBody] DeductInventoryCommand command)
         {
-            await Task.Delay(1000);
+            await Task.Delay(1);
             var random = new Random();
             if (random.NextDouble() < 0.5)
             {
@@ -29,7 +29,7 @@ namespace Services.Inventory.Controllers
         [HttpPost("add")]
         public async Task<ActionResult> Add([FromBody] AddInventoryCommand command)
         {
-            await Task.Delay(1000);
+            await Task.Delay(1);
             var random = new Random();
             if (random.NextDouble() < 0.5)
             {

@@ -35,7 +35,7 @@ services:
     ports:
       - "5003:5003"
     build:
-      context: ./Services.Inventory
+      context: .
       dockerfile: Dockerfile.Inventory
 
   services.payment:
@@ -46,7 +46,7 @@ services:
     ports:
       - "5004:5004"
     build:
-      context: ./Services.Payment
+      context: .
       dockerfile: Dockerfile.Payment
 
 networks:

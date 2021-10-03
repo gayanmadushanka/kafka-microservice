@@ -29,27 +29,11 @@ namespace Services.Order
             CreateHostBuilder(args).Build().Run();
         }
 
-        // public static IHostBuilder CreateHostBuilder(string[] args) =>
-        //     Host.CreateDefaultBuilder(args)
-        //         .ConfigureWebHostDefaults(webBuilder =>
-        //         {
-        //             webBuilder.UseStartup<Startup>();
-        //         });
-
         public static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.UseStartup<Startup>();
-                })
-                .ConfigureServices(services =>
-                   services.AddKafkaConsumer<string, OrchestratorResponseDTO, OrderUpdatedHandler>(p =>
-                   {
-                       p.Topic = "order-updated";
-                       p.GroupId = "orders-updated-group";
-                       p.BootstrapServers = "kafka:29092";
-                       p.AllowAutoCreateTopics = true;
-                   })
-                );
+                });
     }
 }

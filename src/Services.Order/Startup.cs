@@ -40,6 +40,13 @@ namespace Services.Order
                 p.Topic = "order-created";
                 p.BootstrapServers = "kafka:29092";
             });
+            services.AddKafkaConsumer<string, OrchestratorResponseDTO, OrderUpdatedHandler>(p =>
+            {
+                p.Topic = "order-updated";
+                p.GroupId = "orders-updated-group";
+                p.BootstrapServers = "kafka:29092";
+                p.AllowAutoCreateTopics = true;
+            });
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -50,7 +57,7 @@ namespace Services.Order
                     .Get<IExceptionHandlerPathFeature>()
                     .Error;
                 Console.WriteLine(exception.Message);
-                await Task.Delay(1000);
+                await Task.Delay(1);
             }));
             DbInitilializer.Initialize(app.ApplicationServices);
             app.UseRouting();

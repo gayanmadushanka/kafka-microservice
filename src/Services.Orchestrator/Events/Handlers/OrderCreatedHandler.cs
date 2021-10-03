@@ -41,7 +41,7 @@ namespace Services.Orchestrator.Events.Handlers
                 Console.WriteLine("------------------");
                 return;
             }
-            await Retry(10, async () =>
+            await Retry(2, async () =>
             {
                 var revertTasks = new List<Task<bool>>()
                 {

@@ -28,28 +28,11 @@ namespace Services.Orchestrator
             CreateHostBuilder(args).Build().Run();
         }
 
-        // public static IHostBuilder CreateHostBuilder(string[] args) =>
-        //     Host.CreateDefaultBuilder(args)
-        //         .ConfigureWebHostDefaults(webBuilder =>
-        //         {
-        //             webBuilder.UseStartup<Startup>();
-        //         });
-
-
         public static IHostBuilder CreateHostBuilder(string[] args) =>
-                Host.CreateDefaultBuilder(args)
-                    .ConfigureWebHostDefaults(webBuilder =>
-                    {
-                        webBuilder.UseStartup<Startup>();
-                    })
-                    .ConfigureServices(services =>
-                        services.AddKafkaConsumer<string, OrchestratorRequestDTO, OrderCreatedHandler>(p =>
-                        {
-                            p.Topic = "order-created";
-                            p.GroupId = "orders-created-group";
-                            p.BootstrapServers = "kafka:29092";
-                            p.AllowAutoCreateTopics = true;
-                        })
-                    );
+            Host.CreateDefaultBuilder(args)
+                .ConfigureWebHostDefaults(webBuilder =>
+                {
+                    webBuilder.UseStartup<Startup>();
+                });
     }
 }
