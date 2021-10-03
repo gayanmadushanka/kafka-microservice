@@ -33,8 +33,8 @@ namespace Services.Orchestrator
             services.AddKafkaProducer<string, OrchestratorResponseDTO>(p =>
             {
                 p.Topic = "order-updated";
-                // p.BootstrapServers = "kafka:29092";
-                p.BootstrapServers = "localhost:9092";
+                p.BootstrapServers = "kafka:29092";
+                // p.BootstrapServers = "localhost:9092";
             });
             // services.AddKafkaConsumer<string, OrchestratorRequestDTO, OrderCreatedHandler>(p =>
             // {

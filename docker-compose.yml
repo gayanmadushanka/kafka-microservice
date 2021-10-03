@@ -70,68 +70,68 @@ services:
     environment:
       KAFKA_BROKERCONNECT: kafka:29092
 
-  # services.order:
-  #   image: services.order
-  #   container_name: services.order
-  #   networks:
-  #     - broker-kafka-network
-  #   depends_on:
-  #     - kafka
-  #     - create-topics
-  #     - postgres
-  #   ports:
-  #     - "5001:5001"
-  #   command: "bash -c 'cub kafka-ready -b kafka:29092 1 120'"
-  #   build:
-  #     context: .
-  #     dockerfile: Dockerfile.order
+  services.order:
+    image: services.order
+    container_name: services.order
+    networks:
+      - broker-kafka-network
+    depends_on:
+      - kafka
+      - create-topics
+      - postgres
+    ports:
+      - "5001:5001"
+    command: "bash -c 'cub kafka-ready -b kafka:29092 1 120'"
+    build:
+      context: .
+      dockerfile: Dockerfile.order
 
-  # services.orchestrator:
-  #   image: services.orchestrator
-  #   container_name: services.orchestrator
-  #   networks:
-  #     - broker-kafka-network
-  #     - services-inventory-network
-  #     - services-payment-network
-  #   depends_on:
-  #     - kafka
-  #     - create-topics
-  #     - services.order
-  #   ports:
-  #     - "5002:5002"
-  #   command: "bash -c 'cub kafka-ready -b kafka:29092 1 3600'"
-  #   build:
-  #     context: .
-  #     dockerfile: Dockerfile.orchestrator
+  services.orchestrator:
+    image: services.orchestrator
+    container_name: services.orchestrator
+    networks:
+      - broker-kafka-network
+      - services-inventory-network
+      - services-payment-network
+    depends_on:
+      - kafka
+      - create-topics
+      - services.order
+    ports:
+      - "5002:5002"
+    command: "bash -c 'cub kafka-ready -b kafka:29092 1 3600'"
+    build:
+      context: .
+      dockerfile: Dockerfile.orchestrator
 
-  # services.inventory:
-  #   image: services.inventory
-  #   container_name: services.inventory
-  #   networks:
-  #     - services-inventory-network
-  #   ports:
-  #     - "5003:5003"
-  #   build:
-  #     context: ./src/Services.Inventory
-  #     dockerfile: Dockerfile
+  services.inventory:
+    image: services.inventory
+    container_name: services.inventory
+    networks:
+      - services-inventory-network
+    ports:
+      - "5003:5003"
+    build:
+      context: ./src/Services.Inventory
+      dockerfile: Dockerfile
 
-  # services.payment:
-  #   image: services.payment
-  #   container_name: services.payment
-  #   networks:
-  #     - services-payment-network
-  #   ports:
-  #     - "5004:5004"
-  #   build:
-  #     context: ./src/Services.Payment
-  #     dockerfile: Dockerfile
+  services.payment:
+    image: services.payment
+    container_name: services.payment
+    networks:
+      - services-payment-network
+    ports:
+      - "5004:5004"
+    build:
+      context: ./src/Services.Payment
+      dockerfile: Dockerfile
 
 networks:
   broker-kafka-network:
     driver: bridge
 
-  # services-inventory-network:
-  #   driver: bridge
+  services-inventory-network:
+    driver: bridge
 
-  # services-payment-network:
-  #   driver: bridge
+  services-payment-network:
+    driver: bridge

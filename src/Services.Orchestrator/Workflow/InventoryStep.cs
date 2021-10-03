@@ -18,8 +18,8 @@ namespace Services.Orchestrator.Workflow
         public InventoryStep(IHttpClientFactory clientFactory)
         {
             _clientFactory = clientFactory;
-            // _baseUrl = "http://services.inventory:5003/api/Inventory";
-            _baseUrl = "http://localhost:5003/api/Inventory";
+            _baseUrl = "http://services.inventory:5003/api/Inventory";
+            // _baseUrl = "http://localhost:5003/api/Inventory";
         }
 
         public async Task<bool> Process(OrchestratorRequestDTO value)
