@@ -47,8 +47,7 @@ namespace Services.Order
                    {
                        p.Topic = "order-updated";
                        p.GroupId = "orders-updated-group";
-                       // p.BootstrapServers = "kafka:29092";
-                       p.BootstrapServers = "localhost:9092";
+                       p.BootstrapServers = "kafka:29092";
                        p.AllowAutoCreateTopics = true;
                    })
                 );

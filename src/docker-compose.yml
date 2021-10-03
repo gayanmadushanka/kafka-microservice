@@ -5,7 +5,7 @@ services:
     image: services.order
     container_name: services.order
     networks:
-      - broker-kafka-network
+      - kafka-microservice_broker-kafka-network
     ports:
       - "5001:5001"
     build:
@@ -15,6 +15,10 @@ services:
   services.orchestrator:
     image: services.orchestrator
     container_name: services.orchestrator
+    networks:
+      - kafka-microservice_broker-kafka-network
+      - services-inventory-network
+      - services-payment-network
     depends_on:
       - services.order
     ports:
@@ -46,6 +50,9 @@ services:
       dockerfile: Dockerfile
 
 networks:
+  kafka-microservice_broker-kafka-network:
+    external: true
+
   services-inventory-network:
     driver: bridge
 

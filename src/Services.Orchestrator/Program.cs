@@ -43,14 +43,13 @@ namespace Services.Orchestrator
                         webBuilder.UseStartup<Startup>();
                     })
                     .ConfigureServices(services =>
-                               services.AddKafkaConsumer<string, OrchestratorRequestDTO, OrderCreatedHandler>(p =>
-                               {
-                                   p.Topic = "order-created";
-                                   p.GroupId = "orders-created-group";
-                                   p.BootstrapServers = "kafka:29092";
-                                   //    p.BootstrapServers = "localhost:9092";
-                                   p.AllowAutoCreateTopics = true;
-                               })
+                        services.AddKafkaConsumer<string, OrchestratorRequestDTO, OrderCreatedHandler>(p =>
+                        {
+                            p.Topic = "order-created";
+                            p.GroupId = "orders-created-group";
+                            p.BootstrapServers = "kafka:29092";
+                            p.AllowAutoCreateTopics = true;
+                        })
                     );
     }
 }

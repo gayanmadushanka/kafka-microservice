@@ -34,16 +34,7 @@ namespace Services.Orchestrator
             {
                 p.Topic = "order-updated";
                 p.BootstrapServers = "kafka:29092";
-                // p.BootstrapServers = "localhost:9092";
             });
-            // services.AddKafkaConsumer<string, OrchestratorRequestDTO, OrderCreatedHandler>(p =>
-            // {
-            //     p.Topic = "order-created";
-            //     p.GroupId = "orders-created-group";
-            //     // p.BootstrapServers = "kafka:29092";
-            //     p.BootstrapServers = "localhost:9092";
-            //     p.AllowAutoCreateTopics = true;
-            // });
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
