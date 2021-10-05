@@ -23,9 +23,11 @@ namespace Services.Payment.Controllers
             if (command.Price > 1000)
             {
                 Console.WriteLine("Payment Debit Failed");
+                await Task.CompletedTask;
                 return BadRequest();
             }
             Console.WriteLine("Payment Debit Succeed");
+            await Task.CompletedTask;
             return Ok();
         }
 
@@ -33,6 +35,7 @@ namespace Services.Payment.Controllers
         public async Task<ActionResult> Credit([FromBody] CreditPaymentCommand command)
         {
             Console.WriteLine("Payment Credit Succeed");
+            await Task.CompletedTask;
             return Ok();
         }
     }

@@ -21,6 +21,7 @@ namespace Services.Inventory.Controllers
         public async Task<ActionResult> Deduct([FromBody] DeductInventoryCommand command)
         {
             Console.WriteLine("Inventory Deduct Succeed");
+            await Task.CompletedTask;
             return Ok();
         }
 
@@ -28,6 +29,7 @@ namespace Services.Inventory.Controllers
         public async Task<ActionResult> Add([FromBody] AddInventoryCommand command)
         {
             Console.WriteLine("Inventory Add Succeed");
+            await Task.CompletedTask;
             return Ok();
         }
     }
