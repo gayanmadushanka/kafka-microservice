@@ -1,22 +1,21 @@
-version: '3.7'
+version: "3.7"
 
 services:
-
   postgres:
     image: postgres:10.6-alpine
-    container_name: kafka_dotnet_postgres
-    networks: 
-      - broker-kafka
+    container_name: postgres
+    networks:
+      - broker-kafka-network
     ports:
       - "5499:5432"
     environment:
       - POSTGRES_PASSWORD=postgres
-      
+
   zookeeper:
     image: confluentinc/cp-zookeeper:latest
     container_name: zookeeper
-    networks: 
-      - broker-kafka
+    networks:
+      - broker-kafka-network
     ports:
       - 2181:2181
     environment:
@@ -26,8 +25,8 @@ services:
   kafka:
     image: confluentinc/cp-kafka:latest
     container_name: kafka
-    networks: 
-      - broker-kafka
+    networks:
+      - broker-kafka-network
     depends_on:
       - zookeeper
     ports:
@@ -41,12 +40,29 @@ services:
       KAFKA_LOG_CLEANER_DELETE_RETENTION_MS: 5000
       KAFKA_BROKER_ID: 1
       KAFKA_MIN_INSYNC_REPLICAS: 1
+      KAFKA_AUTO_CREATE_TOPICS_ENABLE: "true"
+
+  create-topics:
+    image: confluentinc/cp-kafka:latest
+    hostname: create-topics
+    container_name: create-topics
+    networks:
+      - broker-kafka-network
+    depends_on:
+      - kafka
+    command: "bash -c 'cub kafka-ready -b kafka:29092 1 20 && \
+      kafka-topics --create --if-not-exists --zookeeper zookeeper:2181 --partitions 1 --replication-factor 1 --topic order-created && \
+      kafka-topics --create --if-not-exists --zookeeper zookeeper:2181 --partitions 1 --replication-factor 1 --topic order-updated && \
+      sleep 3600'"
+    environment:
+      KAFKA_BROKER_ID: ignored
+      KAFKA_ZOOKEEPER_CONNECT: ignored
 
   kafdrop:
     image: obsidiandynamics/kafdrop:latest
     container_name: kafdrop
-    networks: 
-      - broker-kafka
+    networks:
+      - broker-kafka-network
     depends_on:
       - kafka
     ports:
@@ -54,6 +70,6 @@ services:
     environment:
       KAFKA_BROKERCONNECT: kafka:29092
 
-networks: 
-  broker-kafka:
-    driver: bridge  
+networks:
+  broker-kafka-network:
+    driver: bridge

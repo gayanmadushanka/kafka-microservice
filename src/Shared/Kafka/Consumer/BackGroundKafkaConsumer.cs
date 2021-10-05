@@ -26,23 +26,18 @@ namespace Shared.Kafka.Consumer
             using (var scope = _serviceScopeFactory.CreateScope())
             {
                 _handler = scope.ServiceProvider.GetRequiredService<IKafkaHandler<TK, TV>>();
-
                 var builder = new ConsumerBuilder<TK, TV>(_config).SetValueDeserializer(new KafkaDeserializer<TV>());
-
                 using (IConsumer<TK, TV> consumer = builder.Build())
                 {
                     consumer.Subscribe(_config.Topic);
-
+                    await Task.Delay(1);
                     while (!stoppingToken.IsCancellationRequested)
                     {
                         var result = consumer.Consume(TimeSpan.FromMilliseconds(1000));
-
                         if (result != null)
                         {
                             await _handler.HandleAsync(result.Message.Key, result.Message.Value);
-
                             consumer.Commit(result);
-
                             consumer.StoreOffset(result);
                         }
                     }

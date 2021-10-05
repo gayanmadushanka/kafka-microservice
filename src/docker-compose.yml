@@ -1,0 +1,60 @@
+version: "3.7"
+
+services:
+  services.order:
+    image: services.order
+    container_name: services.order
+    networks:
+      - kafka-microservice_broker-kafka-network
+    ports:
+      - "5001:5001"
+    build:
+      context: .
+      dockerfile: Dockerfile.Order
+
+  services.orchestrator:
+    image: services.orchestrator
+    container_name: services.orchestrator
+    networks:
+      - kafka-microservice_broker-kafka-network
+      - services-inventory-network
+      - services-payment-network
+    depends_on:
+      - services.order
+    ports:
+      - "5002:5002"
+    build:
+      context: .
+      dockerfile: Dockerfile.Orchestrator
+
+  services.inventory:
+    image: services.inventory
+    container_name: services.inventory
+    networks:
+      - services-inventory-network
+    ports:
+      - "5003:5003"
+    build:
+      context: .
+      dockerfile: Dockerfile.Inventory
+
+  services.payment:
+    image: services.payment
+    container_name: services.payment
+    networks:
+      - services-payment-network
+    ports:
+      - "5004:5004"
+    build:
+      context: .
+      dockerfile: Dockerfile.Payment
+
+networks:
+  kafka-microservice_broker-kafka-network:
+    external: true
+
+  services-inventory-network:
+    driver: bridge
+
+  services-payment-network:
+    driver: bridge
