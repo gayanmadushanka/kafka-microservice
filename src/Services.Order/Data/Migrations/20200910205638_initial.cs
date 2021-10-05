@@ -20,6 +20,9 @@ namespace Services.Order.Data.Migrations
                     ProductId = table.Column<int>(nullable: false),
                     Price = table.Column<double>(nullable: false),
                     Status = table.Column<string>(nullable: false),
+                    FailedReason = table.Column<string>(nullable: true),
+                    CreatedAt = table.Column<DateTime>(nullable: false),
+                    UpdatedAt = table.Column<DateTime>(nullable: false),
                 },
                 constraints: table =>
                 {

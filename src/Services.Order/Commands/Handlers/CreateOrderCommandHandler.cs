@@ -29,7 +29,7 @@ namespace Services.Order.Commands.Handlers
                 Id = command.Id,
                 UserId = command.UserId,
                 ProductId = command.ProductId,
-                Price = 100,
+                Price = command.Price,
                 Status = OrderStatus.ORDER_CREATED.ToString()
             };
             _dbContext.Orders.Add(order);

@@ -35,10 +35,19 @@ namespace Services.Order.Data.Migrations
                         .HasColumnType("integer");
 
                     b.Property<double>("Price")
-                   .HasColumnType("double precision");
+                        .HasColumnType("double precision");
 
                     b.Property<string>("Status")
-                                      .HasColumnType("text");
+                        .HasColumnType("text");
+
+                    b.Property<string>("FailedReason")
+                        .HasColumnType("text");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("timestamp");
 
                     b.HasKey("Id");
 

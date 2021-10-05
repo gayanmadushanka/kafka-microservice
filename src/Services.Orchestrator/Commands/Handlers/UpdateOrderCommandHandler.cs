@@ -24,7 +24,8 @@ namespace Services.Orchestrator.Commands.Handlers
             var orchestratorResponseDTO = new OrchestratorResponseDTO
             {
                 OrderId = value.OrderId,
-                Status = value.Status
+                Status = value.Status,
+                FailedReason = value.FailedReason
             };
             await _bus.PublishAsync(value.OrderId.ToString(), orchestratorResponseDTO);
         }

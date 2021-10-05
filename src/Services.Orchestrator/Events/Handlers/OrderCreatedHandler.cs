@@ -51,18 +51,19 @@ namespace Services.Orchestrator.Events.Handlers
                 var revertTasksResults = await Task.WhenAll(revertTasks);
                 return IsAllSucceed(revertTasksResults);
             });
-            await SendUpdateOrderCommand(value.OrderId, OrderStatus.ORDER_CANCELLED);
+            await SendUpdateOrderCommand(value.OrderId, OrderStatus.ORDER_CANCELLED, "Order transaction failed due to insufficient account balance.");
             Console.WriteLine("ORDER_CANCELLED");
             Console.WriteLine("------------------");
             return;
         }
 
-        private async Task SendUpdateOrderCommand(Guid orderId, OrderStatus status)
+        private async Task SendUpdateOrderCommand(Guid orderId, OrderStatus status, string failedReason = null)
         {
             await _mediator.Send(new UpdateOrderCommand
             {
                 OrderId = orderId,
-                Status = status.ToString()
+                Status = status.ToString(),
+                FailedReason = failedReason
             });
         }
 

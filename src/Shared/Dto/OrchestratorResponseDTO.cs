@@ -5,5 +5,6 @@ namespace Shared.Dto
     {
         public Guid OrderId { get; set; }
         public string Status { get; set; }
+        public string FailedReason { get; set; }
     }
 }

@@ -27,16 +27,25 @@ namespace Services.Order.Data.Migrations
                         .HasColumnType("uuid");
 
                     b.Property<int>("UserId")
-                    .HasColumnType("integer");
+                        .HasColumnType("integer");
 
                     b.Property<int>("ProductId")
                         .HasColumnType("integer");
 
                     b.Property<double>("Price")
-                    .HasColumnType("double precision");
+                        .HasColumnType("double precision");
 
                     b.Property<string>("Status")
-                                      .HasColumnType("text");
+                        .HasColumnType("text");
+
+                    b.Property<string>("FailedReason")
+                        .HasColumnType("text");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("timestamp");
 
                     b.HasKey("Id");
 
