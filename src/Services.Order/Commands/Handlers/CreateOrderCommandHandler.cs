@@ -4,14 +4,12 @@
  * Copyright © 2021 Mitra Innovation. All rights reserved.
  */
 
-using System.Threading.Tasks;
-using System;
 using System.Threading;
-using Services.Order.Data;
+using System.Threading.Tasks;
 using MediatR;
-using Microsoft.EntityFrameworkCore;
-using Shared.Kafka;
+using Services.Order.Data;
 using Shared.Dto;
+using Shared.Kafka;
 
 namespace Services.Order.Commands.Handlers
 {

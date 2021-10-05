@@ -4,11 +4,10 @@
  * Copyright © 2021 Mitra Innovation. All rights reserved.
  */
 
+using System;
 using System.Threading.Tasks;
-using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System;
 using Services.Payment.Commands;
 
 namespace Services.Payment.Controllers

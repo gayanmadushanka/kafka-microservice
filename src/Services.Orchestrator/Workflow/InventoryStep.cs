@@ -4,16 +4,12 @@
  * Copyright © 2021 Mitra Innovation. All rights reserved.
  */
 
-using System.Threading.Tasks;
-using Shared.Kafka.Consumer;
-using Shared.Dto;
 using System;
-using Shared.Kafka;
-using Services.Orchestrator.Commands;
-using MediatR;
 using System.Net.Http;
-using Newtonsoft.Json;
 using System.Text;
+using System.Threading.Tasks;
+using Newtonsoft.Json;
+using Shared.Dto;
 
 namespace Services.Orchestrator.Workflow
 {

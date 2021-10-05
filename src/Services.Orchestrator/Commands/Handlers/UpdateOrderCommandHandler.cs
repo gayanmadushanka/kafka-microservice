@@ -4,14 +4,12 @@
  * Copyright © 2021 Mitra Innovation. All rights reserved.
  */
 
-using System.Threading.Tasks;
-using Shared.Kafka.Consumer;
-using Shared.Dto;
 using System;
-using Shared.Kafka;
-using MediatR;
 using System.Threading;
-using Services.Orchestrator.Commands;
+using System.Threading.Tasks;
+using MediatR;
+using Shared.Dto;
+using Shared.Kafka;
 
 namespace Services.Orchestrator.Commands.Handlers
 {

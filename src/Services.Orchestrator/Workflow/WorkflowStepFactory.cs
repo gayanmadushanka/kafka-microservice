@@ -4,11 +4,7 @@
  * Copyright © 2021 Mitra Innovation. All rights reserved.
  */
 
-using System.Threading.Tasks;
-using Shared.Dto;
 using System.Net.Http;
-using Newtonsoft.Json;
-using System.Text;
 
 namespace Services.Orchestrator.Workflow
 {

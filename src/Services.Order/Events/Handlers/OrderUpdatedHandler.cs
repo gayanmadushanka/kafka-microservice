@@ -4,15 +4,11 @@
  * Copyright © 2021 Mitra Innovation. All rights reserved.
  */
 
-using System.Threading.Tasks;
-using Shared.Kafka.Consumer;
-using Shared.Dto;
 using System;
-using System.Threading;
+using System.Threading.Tasks;
 using Services.Order.Data;
-using MediatR;
-using Microsoft.EntityFrameworkCore;
-using Shared.Kafka;
+using Shared.Dto;
+using Shared.Kafka.Consumer;
 
 namespace Services.Order.Events.Handlers
 {
