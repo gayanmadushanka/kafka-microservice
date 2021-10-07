@@ -1,4 +1,10 @@
-﻿using System;
+﻿/*
+ * Author: Gayan Madushanka
+ * Date: 29/09/2021
+ * Copyright © 2021 Mitra Innovation. All rights reserved.
+ */
+
+using System;
 using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Services.Order.Data.Migrations

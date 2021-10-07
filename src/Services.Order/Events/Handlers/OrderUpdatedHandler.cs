@@ -1,12 +1,14 @@
-using System.Threading.Tasks;
-using Shared.Kafka.Consumer;
-using Shared.Dto;
+/*
+ * Author: Gayan Madushanka
+ * Date: 29/09/2021
+ * Copyright © 2021 Mitra Innovation. All rights reserved.
+ */
+
 using System;
-using System.Threading;
+using System.Threading.Tasks;
 using Services.Order.Data;
-using MediatR;
-using Microsoft.EntityFrameworkCore;
-using Shared.Kafka;
+using Shared.Dto;
+using Shared.Kafka.Consumer;
 
 namespace Services.Order.Events.Handlers
 {

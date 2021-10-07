@@ -1,8 +1,10 @@
-using System.Threading.Tasks;
-using Shared.Dto;
+/*
+ * Author: Gayan Madushanka
+ * Date: 29/09/2021
+ * Copyright © 2021 Mitra Innovation. All rights reserved.
+ */
+
 using System.Net.Http;
-using Newtonsoft.Json;
-using System.Text;
 
 namespace Services.Orchestrator.Workflow
 {

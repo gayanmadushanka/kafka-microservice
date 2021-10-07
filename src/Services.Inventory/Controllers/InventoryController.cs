@@ -1,8 +1,13 @@
-﻿using System.Threading.Tasks;
-using MediatR;
+﻿/*
+ * Author: Gayan Madushanka
+ * Date: 29/09/2021
+ * Copyright © 2021 Mitra Innovation. All rights reserved.
+ */
+
+using System;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System;
 using Services.Inventory.Commands;
 
 namespace Services.Inventory.Controllers
@@ -16,6 +21,7 @@ namespace Services.Inventory.Controllers
         public async Task<ActionResult> Deduct([FromBody] DeductInventoryCommand command)
         {
             Console.WriteLine("Inventory Deduct Succeed");
+            await Task.CompletedTask;
             return Ok();
         }
 
@@ -23,6 +29,7 @@ namespace Services.Inventory.Controllers
         public async Task<ActionResult> Add([FromBody] AddInventoryCommand command)
         {
             Console.WriteLine("Inventory Add Succeed");
+            await Task.CompletedTask;
             return Ok();
         }
     }

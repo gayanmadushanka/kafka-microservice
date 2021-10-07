@@ -1,13 +1,15 @@
-using System.Threading.Tasks;
-using Shared.Kafka.Consumer;
-using Shared.Dto;
+/*
+ * Author: Gayan Madushanka
+ * Date: 29/09/2021
+ * Copyright © 2021 Mitra Innovation. All rights reserved.
+ */
+
 using System;
-using Shared.Kafka;
-using Services.Orchestrator.Commands;
-using MediatR;
 using System.Net.Http;
-using Newtonsoft.Json;
 using System.Text;
+using System.Threading.Tasks;
+using Newtonsoft.Json;
+using Shared.Dto;
 
 namespace Services.Orchestrator.Workflow
 {

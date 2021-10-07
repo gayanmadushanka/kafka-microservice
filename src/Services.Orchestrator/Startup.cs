@@ -1,17 +1,21 @@
+/*
+ * Author: Gayan Madushanka
+ * Date: 29/09/2021
+ * Copyright © 2021 Mitra Innovation. All rights reserved.
+ */
+
+using System.Reflection;
+using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Services.Orchestrator.Events.Handlers;
 using Services.Orchestrator.Commands.Handlers;
-using Services.Orchestrator.Commands;
-using Shared.Kafka;
-using Shared.Dto;
-using MediatR;
-using System.Reflection;
+using Services.Orchestrator.Events.Handlers;
 using Services.Orchestrator.Workflow;
+using Shared.Dto;
+using Shared.Kafka;
 
 namespace Services.Orchestrator
 {

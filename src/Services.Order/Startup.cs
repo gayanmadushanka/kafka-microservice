@@ -1,20 +1,25 @@
+/*
+ * Author: Gayan Madushanka
+ * Date: 29/09/2021
+ * Copyright © 2021 Mitra Innovation. All rights reserved.
+ */
+
+using System;
 using System.Reflection;
+using System.Threading.Tasks;
 using MediatR;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Services.Order.Commands.Handlers;
-using Services.Order.Events.Handlers;
 using Services.Order.Data;
-using Shared.Kafka;
+using Services.Order.Events.Handlers;
 using Shared.Dto;
-using System.Threading.Tasks;
-using System;
-using Microsoft.AspNetCore.Diagnostics;
-using Newtonsoft.Json;
+using Shared.Kafka;
 
 namespace Services.Order
 {
